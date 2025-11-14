@@ -60,6 +60,32 @@ export default function HomeScreen() {
 
 
 
+const findNearestAED = () => {
+    if (!userLocation) return null;
+
+    let nearestAED = null;
+    let closestDistance = Infinity;
+
+    for (const aed of AED_SAMPLE_LOCATIONS) {
+      const distance = getDistance(
+        userLocation.latitude,
+        userLocation.longitude,
+        aed.latitude,
+        aed.longitude
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        nearestAED = aed;
+    }
+    }
+    return nearestAED;
+};
+
+
+
+
+
   if (!userLocation) {
     return <View style={styles.container}><></></View>;
   }
