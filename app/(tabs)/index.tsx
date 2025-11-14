@@ -10,22 +10,45 @@ const AED_SAMPLE_LOCATIONS = [
   { id: 3, name: 'AED 3', latitude: 53.3505, longitude: -6.2620 },
 ];
 
+
+
+
+function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {{
+  const R = 6371e3;
+  const toRad = (value: number) => value * Math.PI / 180;
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a = 
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+}}
+
+
+
+
 export default function HomeScreen() {
   const [userLocation, setUserLocation] = useState<{
   latitude: number;
   longitude: number;
 } | null>(null);
 
+
+
+
   useEffect(() => {
     (async () => {
-      // Ask for permission
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert("Permission denied", "We need your location to find nearby AEDs.");
         return;
       }
 
-      // Get current position
       let location = await Location.getCurrentPositionAsync({});
       setUserLocation({
         latitude: location.coords.latitude,
@@ -34,7 +57,9 @@ export default function HomeScreen() {
     })();
   }, []);
 
-  // If we don't have the user location yet, show nothing
+
+
+
   if (!userLocation) {
     return <View style={styles.container}><></></View>;
   }
@@ -55,7 +80,6 @@ export default function HomeScreen() {
           title="You are here"
         />
 
-        {/* Example sample AED nearby */}
         <Marker
           coordinate={{ latitude: 53.3498, longitude: -6.2603 }}
           title="Sample AED"
@@ -65,6 +89,9 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
