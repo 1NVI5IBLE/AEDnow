@@ -3,6 +3,13 @@ import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import { View, Alert, StyleSheet } from 'react-native';
 
+
+const AED_SAMPLE_LOCATIONS = [
+  { id: 1, name: 'AED 1', latitude: 53.3498, longitude: -6.2603 },
+  { id: 2, name: 'AED 2', latitude: 53.3478, longitude: -6.2590},
+  { id: 3, name: 'AED 3', latitude: 53.3505, longitude: -6.2620 },
+];
+
 export default function HomeScreen() {
   const [userLocation, setUserLocation] = useState<{
   latitude: number;
